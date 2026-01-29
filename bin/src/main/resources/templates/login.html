@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | LeLo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-slate-900 to-slate-800">
+
+<div class="bg-white w-[380px] p-8 rounded-2xl shadow-xl">
+    <h2 class="text-2xl font-bold text-center mb-6 text-slate-800">
+        Login
+    </h2>
+
+    <!-- ERROR MESSAGE -->
+    <p id="error" class="text-red-500 text-center mb-4 hidden"></p>
+
+    <!-- LOGIN FORM -->
+    <form onsubmit="login(event)">
+        <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
+                class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+                class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <!-- ROLE FROM URL -->
+        <input type="hidden" id="role">
+
+        <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Login
+        </button>
+    </form>
+
+    <!-- CUSTOMER REGISTER LINK -->
+    <p id="registerLink" class="text-center mt-4 text-sm hidden">
+        New customer?
+        <a href="/register" class="text-blue-600 font-semibold hover:underline">
+            Register here
+        </a>
+    </p>
+</div>
+
+<script>
+    // Extract role from URL (?role=USER or ?role=ADMIN)
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get("role");
+
+    if (role) {
+        document.getElementById("role").value = role;
+
+        // Show register link only for customers
+        if (role === "USER") {
+            document.getElementById("registerLink").classList.remove("hidden");
+        }
+    }
+
+    function login(event) {
+        event.preventDefault();
+
+        const payload = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            role: document.getElementById("role").value
+        };
+
+        fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.text().then(err => { throw err; });
+            }
+            return res.text();
+        })
+        .then(msg => {
+            // Redirect based on role
+            if (payload.role === "ADMIN") {
+                window.location.href = "/admin/dashboard";
+            } else {
+                window.location.href = "/products";
+            }
+        })
+        .catch(err => {
+            const errorEl = document.getElementById("error");
+            errorEl.textContent = err;
+            errorEl.classList.remove("hidden");
+        });
+    }
+</script>
+
+</body>
+</html>

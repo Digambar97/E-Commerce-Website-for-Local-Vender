@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LeLo Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-indigo-600">LeLo Dashboard</h1>
+    <button onclick="logout()" class="text-red-500 hover:underline">Logout</button>
+</nav>
+
+<div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <a href="/products" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-semibold">📦 Products</h2>
+        <p class="text-gray-500">View available products</p>
+    </a>
+    <a href="/cart" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-semibold">🛒 My Cart</h2>
+        <p class="text-gray-500">View added items</p>
+    </a>
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-lg font-semibold text-indigo-600">👤 Welcome, <span id="user-name">...</span></h2>
+        <p class="text-gray-500" id="user-role">Loading...</p>
+    </div>
+</div>
+
+<script>
+    fetch("/api/user/me").then(res => res.json()).then(user => {
+        document.getElementById("user-name").innerText = user.name;
+        document.getElementById("user-role").innerText = "Role: " + user.role;
+    });
+
+    function logout() {
+        fetch("/auth/logout", { method: "POST", credentials: "include" })
+            .then(() => window.location.href = "/login");
+    }
+</script>
+</body>
+</html>

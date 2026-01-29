@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+<div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Shopping Cart</h1>
+        <a href="/products" class="text-blue-600">← Back to Products</a>
+    </div>
+
+    <div id="cart-items" class="space-y-4">
+    </div>
+
+    <div class="mt-8 border-t pt-6 text-right">
+        <h2 class="text-2xl font-bold">Total: ₹<span id="total-price">0</span></h2>
+        <button onclick="alert('Proceeding to Payment...')"
+                class="mt-4 bg-indigo-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-indigo-700">
+            Checkout
+        </button>
+    </div>
+</div>
+
+<script>
+    fetch("/api/cart", { credentials: "include" })
+    .then(res => res.json())
+    .then(items => {
+        const container = document.getElementById("cart-items");
+        let total = 0;
+        if (items.length === 0) {
+            container.innerHTML = "<p class='text-gray-500'>Your cart is empty.</p>";
+            return;
+        }
+        container.innerHTML = items.map(item => {
+            let subtotal = item.product.price * item.quantity;
+            total += subtotal;
+            return `
+            <div class="bg-white p-4 rounded-lg shadow flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-lg">${item.product.name}</h3>
+                    <p class="text-gray-600">₹${item.product.price} x ${item.quantity}</p>
+                </div>
+                <p class="font-bold text-xl">₹${subtotal}</p>
+            </div>`;
+        }).join('');
+        document.getElementById("total-price").innerText = total;
+    });
+</script>
+</body>
+</html>

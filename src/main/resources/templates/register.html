@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<form id="registerForm"
+      class="bg-white p-8 rounded-xl shadow w-full max-w-md">
+
+    <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+
+    <input class="w-full border p-2 mb-3" placeholder="Name" id="name">
+    <input class="w-full border p-2 mb-3" placeholder="Username" id="username">
+    <input class="w-full border p-2 mb-3" placeholder="Email" id="email">
+    <input class="w-full border p-2 mb-3" placeholder="Password" type="password" id="password">
+
+    <button class="w-full bg-indigo-600 text-white py-2 rounded">
+        Register
+    </button>
+</form>
+
+<script>
+    document.getElementById("registerForm").onsubmit = e => {
+        e.preventDefault();
+
+        fetch("/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: name.value,
+                username: username.value,
+                email: email.value,
+                password: password.value
+            })
+        })
+        .then(r => {
+            if (!r.ok) throw new Error();
+            alert("Registration successful. Login now.");
+            window.location.href = "/login?role=USER";
+        })
+        .catch(() => alert("Registration failed"));
+    };
+</script>
+
+</body>
+</html>

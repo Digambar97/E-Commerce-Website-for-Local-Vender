@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | LeLo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-slate-900 to-slate-800">
+
+<div class="bg-white w-[380px] p-8 rounded-2xl shadow-xl">
+    <h2 class="text-2xl font-bold text-center mb-6 text-slate-800">
+        Login
+    </h2>
+
+    <!-- USER LOGIN FORM (DEFAULT) -->
+    <form action="/auth/login" method="POST">
+        <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+                class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <!-- DEFAULT ROLE = USER -->
+        <input type="hidden" name="role" value="USER">
+
+        <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Login
+        </button>
+    </form>
+
+    <!-- REGISTER LINK -->
+    <p class="text-center mt-4 text-sm">
+        New customer?
+        <a href="/register" class="text-blue-600 font-semibold hover:underline">
+            Register here
+        </a>
+    </p>
+
+    <!-- DIVIDER -->
+    <div class="flex items-center my-6">
+        <hr class="flex-grow border-slate-300">
+        <span class="mx-3 text-slate-400 text-sm">OR</span>
+        <hr class="flex-grow border-slate-300">
+    </div>
+
+    <!-- ADMIN LOGIN BUTTON -->
+    <a
+            href="/login?role=ADMIN"
+            class="block w-full mb-3 text-center bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+        Admin Login
+    </a>
+
+    <!-- VENDOR LOGIN BUTTON -->
+    <a
+            href="/login?role=VENDOR"
+            class="block w-full text-center bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition">
+        Vendor Login
+    </a>
+
+</div>
+
+</body>
+</html>

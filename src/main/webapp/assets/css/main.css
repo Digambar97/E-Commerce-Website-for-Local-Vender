@@ -1,0 +1,40 @@
+[x-cloak] {
+    display: none !important;
+}
+
+/* Hero overlay */
+.hero-gradient {
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.05)
+    );
+}
+
+/* Video enhancement */
+.hero-video {
+    filter: brightness(1.15) contrast(1.05);
+}
+
+/* Footer */
+.footer-bg {
+    background: linear-gradient(to right, #020617, #0f172a);
+}
+
+.footer-title {
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    color: white;
+}
+
+.footer-link {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #9ca3af;
+}
+
+.footer-link:hover {
+    color: #6366f1;
+}
